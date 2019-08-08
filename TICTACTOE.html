@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TIC TAC TOE</title>
+</head>
+<body>
+<h1>CARO GAME SIMPLE</h1>
+<p id="display"></p>
+<input type="button" value="CHANGE VALUE" onclick="changeValue()">
+<script>
+    let n = parseInt(prompt());
+    let board = [];
+    let data = "";
+    let turn = 0;
+
+
+    board = createCaro(n);
+    document.getElementById("display").innerHTML = showGameCaro(board, n);
+
+    function createCaro(n) {
+        let board = [];
+        for (let i = 0; i < n; i++) {
+            board[i] = new Array(n);
+            for (let j = 0; j < n; j++) {
+                board[i][j] = "*";
+            }
+        }
+        return board;
+    }
+
+    function showGameCaro(board, n) {
+        let data = "";
+        for (let i = 0; i < n; i++) {
+            data += '<br>';
+            for (let j = 0; j < n; j++) {
+                data += board[i][j] + "&nbsp;&nbsp;&nbsp;&nbsp;";
+            }
+        }
+        return data;
+    }
+
+    function changeValue() {
+        turn++;
+        let positionX = parseInt(prompt("Row:"));
+        let positionY = parseInt(prompt("Colum:"));
+        let value = "";
+        while (board[positionX][positionY] !== "*") {
+            alert("This box is click.");
+            positionX = parseInt(prompt("Row:"));
+            positionY = parseInt(prompt("Colum:"));
+        }
+        if (turn % 2 !== 0) {
+            value = "x";
+        } else {
+            value = "o";
+        }
+        board[positionX][positionY] = value;
+        data = "";
+        for (let i = 0; i < n; i++) {
+            data += '<br>';
+            for (let j = 0; j < n; j++) {
+                data += board[i][j] + "&nbsp;&nbsp;&nbsp;&nbsp;";
+            }
+        }
+        document.getElementById("display").innerHTML = data;
+
+        if (ketthuc(positionX, positionY, value)) {
+            alert("PLAYER 1 WIN.");
+        }
+    }
+
+    function ketthuc(x, y, a) {
+        return checkHorizontal(x, y, a) || checkVertical(x, y, a) || checkCrossDown(x, y, a) || checkCrossUp(x, y, a);
+    }
+
+    function checkHorizontal(x, y, a) {
+        let count = 0;
+        for (let k = -2; k <= 2; k++) {
+            if (y + k >= 0 && y + k < n) {
+                if (board[x][y + k] === a) {
+                    count++
+                } else if (count < 3) {
+                    count = 0;
+                }
+            }
+        }
+        if (count === 3) {
+            return true;
+        } else if (count < 3) {
+            return false;
+        }
+    }
+
+    function checkVertical(x, y, a) {
+        let count = 0;
+        for (let k = -2; k <= 2; k++) {
+            if (x + k >= 0 && x + k < n) {
+                if (board[x + k][y] === a) {
+                    count++;
+                } else if (count < 3) {
+                    count = 0;
+                }
+            }
+        }
+        if (count === 3) {
+            return true;
+        } else if (count < 3) {
+            return false;
+        }
+    }
+
+    function checkCrossDown(x, y, a) {
+        let count = 0;
+        for (let k = -2; k <= 2; k++) {
+            if (x + k >= 0 && x + k < n && y + k >= 0 && y + k < n) {
+                if (board[x + k][y + k] === a) {
+                    count++;
+                } else if (count < 3) {
+                    count = 0;
+                }
+            }
+        }
+        if (count === 3) {
+            return true;
+        } else if (count < 3) {
+            return false;
+        }
+    }
+
+    function checkCrossUp(x, y, a) {
+        let count = 0;
+        for (let k = 2, j = -2; k >= -2, j <= 2; k--, j++) {
+            if (x + k >= 0 && x + k < n && y + j >= 0 && y + j < n) {
+                if (board[x + k][y + j] === a) {
+                    count++;
+                } else if (count < 3) {
+                    count = 0;
+                }
+            }
+        }
+        if (count === 3) {
+            return true;
+        } else if (count < 3) {
+            return false;
+        }
+    }
+</script>
+</body>
+</html>
