@@ -8,6 +8,7 @@
 <h1>CARO GAME SIMPLE</h1>
 <p id="display"></p>
 <input type="button" value="CHANGE VALUE" onclick="changeValue()">
+<input type="button" value="PLAY AGAIN" onclick="playAgain()">
 <script>
     let n = parseInt(prompt());
     let board = [];
@@ -18,12 +19,17 @@
     board = createCaro(n);
     document.getElementById("display").innerHTML = showGameCaro(board, n);
 
+    function playAgain(){
+        board = createCaro(n);
+        document.getElementById("display").innerHTML = showGameCaro(board, n);
+    }
+
     function createCaro(n) {
         let board = [];
         for (let i = 0; i < n; i++) {
             board[i] = new Array(n);
             for (let j = 0; j < n; j++) {
-                board[i][j] = "*";
+                board[i][j] = "🔲";
             }
         }
         return board;
@@ -34,7 +40,7 @@
         for (let i = 0; i < n; i++) {
             data += '<br>';
             for (let j = 0; j < n; j++) {
-                data += board[i][j] + "&nbsp;&nbsp;&nbsp;&nbsp;";
+                data += board[i][j];
             }
         }
         return data;
@@ -45,28 +51,28 @@
         let positionX = parseInt(prompt("Row:"));
         let positionY = parseInt(prompt("Colum:"));
         let value = "";
-        while (board[positionX][positionY] !== "*") {
+        while (board[positionX][positionY] !== "🔲") {
             alert("This box is click.");
             positionX = parseInt(prompt("Row:"));
             positionY = parseInt(prompt("Colum:"));
         }
         if (turn % 2 !== 0) {
-            value = "x";
+            value = "❌";
         } else {
-            value = "o";
+            value = "⭕";
         }
         board[positionX][positionY] = value;
         data = "";
         for (let i = 0; i < n; i++) {
             data += '<br>';
             for (let j = 0; j < n; j++) {
-                data += board[i][j] + "&nbsp;&nbsp;&nbsp;&nbsp;";
+                data += board[i][j];
             }
         }
         document.getElementById("display").innerHTML = data;
 
         if (ketthuc(positionX, positionY, value)) {
-            alert("PLAYER 1 WIN.");
+            alert("YOU WIN.");
         }
     }
 
